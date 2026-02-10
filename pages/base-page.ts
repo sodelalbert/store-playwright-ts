@@ -8,5 +8,7 @@ export abstract class BasePage {
     this.page = page;
     this.pageURL = "";
   }
-  abstract goto(): Promise<void>;
+
+  goto?(): Promise<void>;
+  
 }

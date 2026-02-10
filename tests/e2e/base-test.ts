@@ -1,12 +1,14 @@
 import { test as base } from "@playwright/test";
 import { HomePage } from "../../pages/home-page";
 import { LoginPage } from "../../pages/login-page";
+import { ProductPage } from "../../pages/product-page";
 import { RegisterPage } from "../../pages/register-page";
 import { SearchResultPage } from "../../pages/search-result-page";
 
 type myFixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
+  productPage: ProductPage;
   registerPage: RegisterPage;
   searchResultPage: SearchResultPage;
 };
@@ -17,6 +19,9 @@ export const test = base.extend<myFixtures>({
   },
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
+  },
+  productPage: async ({ page }, use) => {
+    await use(new ProductPage(page));
   },
   registerPage: async ({ page }, use) => {
     await use(new RegisterPage(page));
