@@ -7,6 +7,5 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 
-.DS_Store
-.vscode/
-.env
+# Test results
+results/

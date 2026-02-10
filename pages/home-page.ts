@@ -1,69 +1,47 @@
-import { Locator, Page } from "playwright-core";
+import { Page } from "@playwright/test";
+import { BasePage } from "./base-page";
+import { CategoryNavigation } from "../components/category-navigation";
+import { CommunityPoll } from "../components/community-poll";
+import { FooterMenu } from "../components/footer-menu";
+import { HeaderLinks } from "../components/header-links";
+import { HeaderMenu } from "../components/header-menu";
+import { ManufacturersNavigation } from "../components/manufacturers-navigation";
+import { NewsletterInput } from "../components/newsletter-input";
+import { PopularTags } from "../components/popular-tags";
+import { SearchBox } from "../components/search-box";
 
-export class HomePage {
-  readonly page: Page;
-
-  readonly $registerLink: Locator;
-  readonly $loginLink: Locator;
-  readonly $logoutLink: Locator;
-  readonly $shoppingCartLink: Locator;
-  readonly $shoppingCartQuantity: Locator;
-
-  readonly $loggedInUserAccount: Locator;
-
-  readonly $searchBox: Locator;
-  readonly $searchButton: Locator;
+export class HomePage extends BasePage {
+  readonly searchBox: SearchBox;
+  readonly headerLinks: HeaderLinks;
+  readonly headerMenu: HeaderMenu;
+  readonly categoryNavigation: CategoryNavigation;
+  readonly manufacturersNavigation: ManufacturersNavigation;
+  readonly popularTags: PopularTags;
+  readonly newsletterInput: NewsletterInput;
+  readonly communityPoll: CommunityPoll;
+  readonly footerMenu: FooterMenu;
 
   constructor(page: Page) {
-    this.page = page;
-    this.$registerLink = page.locator("a.ico-register");
-    this.$loginLink = page.locator("a.ico-login");
-    this.$logoutLink = page.locator("a.ico-logout");
-    this.$shoppingCartLink = page.locator("a.ico-cart");
-    this.$shoppingCartQuantity = this.$shoppingCartLink.locator(".cart-qty");
+    super(page);
 
-    this.$loggedInUserAccount = page.locator(".header-links a.account").first();
+    this.pageURL = "/";
 
-    this.$searchBox = page.locator("input#small-searchterms");
-    this.$searchButton = page.locator("input.button-1.search-box-button");
+    // Page components objects initialization
+    this.searchBox = new SearchBox(page);
+    this.headerLinks = new HeaderLinks(page);
+    this.headerMenu = new HeaderMenu(page);
+
+    this.categoryNavigation = new CategoryNavigation(page);
+    this.manufacturersNavigation = new ManufacturersNavigation(page);
+    this.popularTags = new PopularTags(page);
+
+    this.newsletterInput = new NewsletterInput(page);
+    this.communityPoll = new CommunityPoll(page);
+
+    this.footerMenu = new FooterMenu(page);
   }
 
-  public async goto(): Promise<void> {
-    await this.page.goto("/");
-  }
-
-  public async cllickRegister(): Promise<void> {
-    await this.$registerLink.click();
-  }
-
-  public async cllickLogin(): Promise<void> {
-    await this.$loginLink.click();
-  }
-
-  public async cllickLogout(): Promise<void> {
-    await this.$logoutLink.click();
-  }
-
-  public async cllickShoppingCart(): Promise<void> {
-    await this.$shoppingCartLink.click();
-  }
-
-  public async getLoggedInUser(): Promise<string | null> {
-    if (await this.$loggedInUserAccount.isVisible()) {
-      return await this.$loggedInUserAccount.textContent();
-    }
-    return null;
-  }
-
-  public async searchFor(searchPhrase: string): Promise<void> {
-    await this.$searchBox.fill(searchPhrase);
-    await this.$searchButton.click();
-  }
-
-  public async getCartItemCount(): Promise<number> {
-    const cartText = await this.$shoppingCartQuantity.textContent();
-    if (!cartText) return 0;
-    const match = cartText.match(/(\d+)/);
-    return match ? parseInt(match[1], 10) : 0;
+  async goto() {
+    await this.page.goto(this.pageURL);
   }
 }

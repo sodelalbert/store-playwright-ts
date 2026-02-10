@@ -1,6 +1,18 @@
 # Tasks to be implemented
 
+- [x] Make sure that tests are opening base URL from config and not hardcoded in tests.
+- [x] Create Base Test class
+- [x] Create HomePage class and use it in tests instead of page object.
+- [x] Create BasePage class and use it in HomePage instead of Page object.
+
+- [ ] Test tags
+- [ ] Backedn tests implementation.
+- [ ] Configurations for prod and staging environments.
+
+---
+
 - [ ] Write about static code analysis in docs - this should be documented what and how it works (in details).
+  - [ ] Fix it first 😊
 - [ ] Create serious POM structure for the tests.
   - Pages to be created as composition of components or layouts.
   - Components to be reused across pages.
@@ -20,7 +32,7 @@ test(
   async ({ page }) => {
     await page.goto("/login");
     await expect(page).toHaveTitle(/Login/);
-  }
+  },
 );
 ```
 
@@ -33,8 +45,6 @@ export const TAGS = {
   CRITICAL: "@critical",
 };
 ```
-
-- [ ] Data driven tests implementation.
 
 ## References
 
