@@ -9,3 +9,9 @@ node_modules/
 
 # Test results
 results/
+
+# MacOS
+.DS_Store
+
+# VS Code
+.vscode/
