@@ -6,14 +6,14 @@
 - [x] Create BasePage class and use it in HomePage instead of Page object.
 
 - [ ] Test tags
-- [ ] Backedn tests implementation.
+- [ ] Backend tests implementation.
 - [ ] Configurations for prod and staging environments.
 
 - POM Implementation
   - [x] HomePage
-  - [ ] Register Page
-  - [ ] Login Page
-  - [ ] Search Results Page <https://demowebshop.tricentis.com/search?q=laptop>
+  - [x] Register Page
+  - [x] Login Page
+  - [x] Search Results Page <https://demowebshop.tricentis.com/search?q=laptop>
   - [ ] Product Page <https://demowebshop.tricentis.com/141-inch-laptop>
   - [ ] Wishlist Page
   - [ ] Shoping Cart Page
