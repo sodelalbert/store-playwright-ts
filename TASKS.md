@@ -9,6 +9,15 @@
 - [ ] Backedn tests implementation.
 - [ ] Configurations for prod and staging environments.
 
+- POM Implementation
+  - [x] HomePage
+  - [ ] Register Page
+  - [ ] Login Page
+  - [ ] Search Results Page <https://demowebshop.tricentis.com/search?q=laptop>
+  - [ ] Product Page <https://demowebshop.tricentis.com/141-inch-laptop>
+  - [ ] Wishlist Page
+  - [ ] Shoping Cart Page
+
 ---
 
 - [ ] Write about static code analysis in docs - this should be documented what and how it works (in details).

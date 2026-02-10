@@ -1,6 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 
-export class SearchBox {
+export class HeaderSearchBox {
   readonly root: Locator;
   readonly input: Locator;
   readonly submitButton: Locator;
@@ -8,7 +8,9 @@ export class SearchBox {
   constructor(page: Page) {
     this.root = page.locator(".search-box");
     this.input = this.root.locator("#small-searchterms");
-    this.submitButton = this.root.locator('input[type="submit"], button[type="submit"]');
+    this.submitButton = this.root.locator(
+      'input[type="submit"], button[type="submit"]',
+    );
   }
 
   async searchFor(term: string) {

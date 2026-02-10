@@ -1,30 +1,34 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./base-page";
 import { CategoryNavigation } from "../components/category-navigation";
-import { CommunityPoll } from "../components/community-poll";
 import { FooterMenu } from "../components/footer-menu";
 import { HeaderLinks } from "../components/header-links";
 import { HeaderMenu } from "../components/header-menu";
 import { HeaderSearchBox } from "../components/header-search-box";
-import { ManufacturersNavigation } from "../components/manufacturers-navigation";
-import { NewsletterInput } from "../components/newsletter-input";
-import { PopularTags } from "../components/popular-tags";
 
-export class HomePage extends BasePage {
+type LoginData = {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+};
+
+export class LoginPage extends BasePage {
   readonly headerSearchBox: HeaderSearchBox;
   readonly headerLinks: HeaderLinks;
   readonly headerMenu: HeaderMenu;
   readonly categoryNavigation: CategoryNavigation;
-  readonly manufacturersNavigation: ManufacturersNavigation;
-  readonly popularTags: PopularTags;
-  readonly newsletterInput: NewsletterInput;
-  readonly communityPoll: CommunityPoll;
   readonly footerMenu: FooterMenu;
+
+  readonly emailInput: Locator;
+  readonly passwordInput: Locator;
+  readonly rememberMeCheckbox: Locator;
+  readonly loginButton: Locator;
+  readonly errorSummary: Locator;
 
   constructor(page: Page) {
     super(page);
 
-    this.pageURL = "/";
+    this.pageURL = "/login";
 
     // Page components objects initialization
     this.headerSearchBox = new HeaderSearchBox(page);
@@ -32,16 +36,29 @@ export class HomePage extends BasePage {
     this.headerMenu = new HeaderMenu(page);
 
     this.categoryNavigation = new CategoryNavigation(page);
-    this.manufacturersNavigation = new ManufacturersNavigation(page);
-    this.popularTags = new PopularTags(page);
-
-    this.newsletterInput = new NewsletterInput(page);
-    this.communityPoll = new CommunityPoll(page);
-
     this.footerMenu = new FooterMenu(page);
+
+    this.emailInput = page.locator("#Email");
+    this.passwordInput = page.locator("#Password");
+    this.rememberMeCheckbox = page.locator("#RememberMe");
+    this.loginButton = page.locator(
+      '.login-button, input[type="submit"][value="Log in"]',
+    );
+    this.errorSummary = page.locator(".validation-summary-errors");
   }
 
   async goto() {
     await this.page.goto(this.pageURL);
+  }
+
+  async login(data: LoginData) {
+    await this.emailInput.fill(data.email);
+    await this.passwordInput.fill(data.password);
+
+    if (data.rememberMe) {
+      await this.rememberMeCheckbox.check();
+    }
+
+    await this.loginButton.click();
   }
 }
