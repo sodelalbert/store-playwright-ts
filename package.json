@@ -7,7 +7,12 @@
     "doc": "docs",
     "test": "tests"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:dev": "TEST_ENV=dev playwright test",
+    "test:staging": "TEST_ENV=staging playwright test",
+    "test:prod": "TEST_ENV=prod playwright test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sodelalbert/store-playwright-ts.git"

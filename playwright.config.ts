@@ -1,16 +1,29 @@
 import { defineConfig, devices } from "@playwright/test";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+type EnvironmentName = "dev" | "staging" | "prod";
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+const envName = (process.env.TEST_ENV ?? "dev") as EnvironmentName;
+
+const environments: Record<
+  EnvironmentName,
+  { baseURL: string; retries: number }
+> = {
+  dev: {
+    baseURL: "https://demowebshop.tricentis.com/",
+    retries: 0,
+  },
+  staging: {
+    baseURL: "https://demowebshop.tricentis.com/",
+    retries: 1,
+  },
+  prod: {
+    baseURL: "https://demowebshop.tricentis.com/",
+    retries: 2,
+  },
+};
+
+const selectedEnvironment = environments[envName] ?? environments.dev;
+
 export default defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
@@ -18,7 +31,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : selectedEnvironment.retries,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -26,9 +39,12 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   use: {
-    baseURL: "https://demowebshop.tricentis.com/",
+    baseURL: process.env.BASE_URL ?? selectedEnvironment.baseURL,
     trace: "on-first-retry",
     video: "retain-on-failure",
+    extraHTTPHeaders: {
+      "x-test-environment": envName,
+    },
   },
 
   /* Configure projects for major browsers */
@@ -37,42 +53,5 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
-
-    // {
-    //   name: "firefox",
-    //   use: { ...devices["Desktop Firefox"] },
-    // },
-
-    // {
-    //   name: "webkit",
-    //   use: { ...devices["Desktop Safari"] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });
