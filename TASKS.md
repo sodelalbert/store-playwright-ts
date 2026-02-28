@@ -4,10 +4,11 @@
 - [x] Create Base Test class
 - [x] Create HomePage class and use it in tests instead of page object.
 - [x] Create BasePage class and use it in HomePage instead of Page object.
-
 - [x] Test environment support
+- [x] API Client Class implementation for backend tests.
+
+- [ ] Test alternative URL for backend option.
 - [ ] Test tags
-- [ ] API Client Class implementation for backend tests.
 - [ ] Backend tests implementation.
 - [ ] Configurations for prod and staging environments.
 
